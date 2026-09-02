@@ -624,6 +624,572 @@
     object-fit: contain;
     object-position: center;
 }
+  /* =========================================================
+   MOBILE RESPONSIVE FIX — WHITESMART
+   ========================================================= */
+
+/* TABLET + MOBILE */
+@media (max-width: 1024px) {
+
+  /* ---------- HEADER ---------- */
+
+  header {
+    padding: 14px 0;
+  }
+
+  header.scrolled {
+    padding: 10px 0;
+  }
+
+  .nav-inner {
+    min-height: 44px;
+  }
+
+  /* Smaller WhiteSmart logo/title */
+  .logo-word {
+    font-size: 1.35rem;
+    letter-spacing: -0.02em;
+  }
+
+  .logo-box {
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .logo-box img {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+  }
+
+  /*
+    IMPORTANT:
+    Hide the desktop "Nous contacter" button.
+    The mobile menu already has its own contact button.
+  */
+  .nav-cta-desktop {
+    display: none !important;
+  }
+
+  #header-cta {
+    display: none !important;
+  }
+
+  /* Hamburger */
+  #burger {
+    display: block;
+    flex-shrink: 0;
+  }
+
+
+  /* ---------- MOBILE MENU ---------- */
+
+  #mobile-menu {
+    padding: 90px 28px 40px;
+    overflow-y: auto;
+    justify-content: flex-start;
+  }
+
+  #mobile-menu a {
+    font-size: 1.5rem;
+  }
+
+  #mobile-menu .btn-orange {
+    margin-top: 12px;
+  }
+
+
+  /* ---------- HERO / ACCUEIL ---------- */
+
+  .hero {
+    min-height: 100svh;
+    height: auto;
+    align-items: flex-end;
+  }
+
+  .hero-content {
+    padding-top: 120px;
+    padding-bottom: 90px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.2rem, 10vw, 4rem);
+    line-height: 0.98;
+    max-width: 11ch;
+  }
+
+  .hero-eyebrow {
+    font-size: .62rem;
+    margin-bottom: 16px;
+  }
+
+  .hero p.sub {
+    font-size: .92rem;
+    line-height: 1.55;
+    max-width: 100%;
+    margin-top: 18px;
+  }
+
+  .hero-ctas {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-top: 26px;
+  }
+
+  .hero-ctas .btn-orange,
+  .hero-ctas .btn-outline {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Move the logo background so it doesn't crush the text */
+  .hero::before {
+    background-position: center top 18%;
+    background-size: min(85vw, 420px) auto;
+    opacity: .25;
+  }
+
+  .hero::after {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(5,5,5,.25) 0%,
+        rgba(5,5,5,.78) 38%,
+        rgba(5,5,5,.98) 78%,
+        rgba(5,5,5,1) 100%
+      );
+  }
+
+  .scroll-indicator {
+    display: none;
+  }
+
+
+  /* ---------- GENERAL SECTIONS ---------- */
+
+  section {
+    padding: 70px 0;
+  }
+
+  .container {
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 100%;
+  }
+
+  .sec-head {
+    margin-bottom: 40px;
+  }
+
+  .sec-head h2 {
+    font-size: clamp(1.8rem, 8vw, 2.7rem);
+    line-height: 1.05;
+  }
+
+  .sec-head p {
+    font-size: .92rem;
+  }
+
+
+  /* ---------- STATS ---------- */
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat {
+    padding: 30px 12px;
+  }
+
+  .stat .num {
+    font-size: 1.8rem;
+  }
+
+  .stat .lbl {
+    font-size: .62rem;
+    line-height: 1.4;
+  }
+
+
+  /* ---------- PRODUCTS ---------- */
+
+  .product-carousel {
+    gap: 14px;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  .allo-card {
+    flex: 0 0 calc(100vw - 50px);
+    max-width: 320px;
+  }
+
+  .allo-card .pc-img {
+    height: 220px;
+  }
+
+  .carousel-nav {
+    margin-top: 0;
+  }
+
+
+  /* ---------- SERVICES ---------- */
+
+  .service-row {
+    padding: 25px 0;
+    gap: 15px;
+  }
+
+  .service-left {
+    gap: 15px;
+    min-width: 0;
+  }
+
+  .service-num {
+    width: 25px;
+    flex-shrink: 0;
+  }
+
+  .service-title {
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  .service-arrow {
+    width: 34px;
+    height: 34px;
+  }
+
+
+  /* ---------- SOLUTIONS ---------- */
+
+  .solutions-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .solution-card {
+    min-height: 360px;
+  }
+
+
+  /* ---------- PROJECTS ---------- */
+
+  .projects-grid {
+    grid-template-columns: 1fr !important;
+    grid-auto-rows: 220px;
+    gap: 12px;
+  }
+
+  .p1,
+  .p2,
+  .p3,
+  .p4,
+  .p-small {
+    grid-column: span 1 !important;
+    grid-row: span 1 !important;
+  }
+
+  .proj-overlay {
+    padding: 18px;
+  }
+
+  .proj-title {
+    font-size: 1rem;
+  }
+
+
+  /* ---------- WHY WHITESMART ---------- */
+
+  .why-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .why-card {
+    padding: 28px 20px;
+  }
+
+
+  /* ---------- ABOUT ---------- */
+
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .value-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+
+  /* ---------- PARTNERS ---------- */
+
+  .partners-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 2px;
+    padding-left: 0;
+  }
+
+  .partner-box {
+    width: 100%;
+    height: 100px;
+  }
+
+  .partner-box img {
+    width: 130px;
+    height: 60px;
+  }
+
+
+  /* ---------- CTA ---------- */
+
+  .cta-block {
+    padding: 80px 20px;
+  }
+
+  .cta-block h2 {
+    font-size: clamp(2rem, 9vw, 3rem);
+  }
+
+  .cta-block p {
+    font-size: .9rem;
+  }
+
+  .cta-btns .btn-orange {
+    width: 100%;
+    justify-content: center;
+  }
+
+
+  /* ---------- CONTACT ---------- */
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .contact-info-item {
+    padding: 18px 0;
+  }
+
+  .ci-value {
+    font-size: .9rem;
+    word-break: break-word;
+  }
+
+  .map-box {
+    height: 280px;
+  }
+
+  .form-row2 {
+    grid-template-columns: 1fr;
+  }
+
+
+  /* ---------- MODALS ---------- */
+
+  .modal-overlay {
+    padding: 12px;
+  }
+
+  .modal-box {
+    max-height: 94svh;
+  }
+
+  .modal-body {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-img {
+    min-height: 220px;
+    height: 220px;
+  }
+
+  .modal-content {
+    padding: 24px;
+  }
+
+  .modal-content h3 {
+    font-size: 1.4rem;
+  }
+
+  .proj-gallery,
+  .project-gallery-large {
+    grid-template-columns: 1fr;
+  }
+
+  .proj-gallery img,
+  .project-gallery-large img {
+    height: 220px;
+  }
+
+
+  /* ---------- FOOTER ---------- */
+
+  .foot-grid {
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .foot-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .foot-bottom-links {
+    flex-wrap: wrap;
+  }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 640px) {
+
+  /* Header */
+  header {
+    padding: 11px 0;
+  }
+
+  .logo-box img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .logo-word {
+    font-size: 1.15rem;
+  }
+
+  #burger {
+    width: 30px;
+    height: 22px;
+  }
+
+  #burger span:nth-child(1) {
+    top: 0;
+  }
+
+  #burger span:nth-child(2) {
+    top: 10px;
+  }
+
+  #burger span:nth-child(3) {
+    top: 20px;
+  }
+
+
+  /* Hero */
+  .hero-content {
+    padding-top: 105px;
+    padding-bottom: 65px;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 11vw, 3.3rem);
+    max-width: 10ch;
+  }
+
+  .hero-eyebrow {
+    font-size: .55rem;
+    letter-spacing: .12em;
+  }
+
+  .hero p.sub {
+    font-size: .85rem;
+  }
+
+  .hero::before {
+    background-size: 95vw auto;
+    background-position: center 12%;
+  }
+
+
+  /* Stats */
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stat {
+    padding: 24px 8px;
+  }
+
+
+  /* Products */
+  .allo-card {
+    flex-basis: calc(100vw - 42px);
+  }
+
+
+  /* Services */
+  .service-title {
+    font-size: .9rem;
+  }
+
+  .service-arrow {
+    width: 30px;
+    height: 30px;
+  }
+
+
+  /* Projects */
+  .projects-grid {
+    grid-auto-rows: 200px;
+  }
+
+
+  /* Partners */
+  .partner-box {
+    height: 90px;
+  }
+
+  .partner-box img {
+    width: 115px;
+    height: 55px;
+  }
+
+
+  /* Modal */
+  .modal-content {
+    padding: 20px;
+  }
+
+  .modal-img {
+    height: 190px;
+    min-height: 190px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 380px) {
+
+  .logo-word {
+    font-size: 1rem;
+  }
+
+  .logo-box {
+    gap: 6px;
+  }
+
+  .hero h1 {
+    font-size: 1.9rem;
+  }
+
+  .hero-content {
+    padding-top: 95px;
+  }
+
+  .hero p.sub {
+    font-size: .8rem;
+  }
+}
 
 </style>
 </head>
