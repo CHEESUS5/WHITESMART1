@@ -145,10 +145,9 @@
       url('eni.jpg') center/cover no-repeat;
     color:#fff; overflow:hidden;
   }
+  /* Removed the orange decorative shape over the Accueil background */
   .hero::after{
-    content:''; position:absolute; right:-10%; top:10%; width:60%; height:80%;
-    background:linear-gradient(160deg, rgba(255,90,0,.16), transparent 60%);
-    pointer-events:none;
+    display:none;
   }
   .hero-content{ position:relative; z-index:2; padding-bottom:110px; width:100%; }
   .hero-eyebrow{
@@ -221,6 +220,12 @@
   .cat-pill.active{ background:var(--orange); border-color:var(--orange); color:var(--black); }
 
   /* ===== Product filters ===== */
+  .filter-label{
+    font-size:.72rem; font-weight:800; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--gray-mid); margin:0 0 12px;
+  }
+  .brand-filter-row{ margin-bottom:18px; }
+  .brand-filter-row .filter-chip{ padding:10px 20px; }
   .filter-row{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:40px; }
   .filter-chip{
     padding:8px 18px; border-radius:3px; background:transparent; border:1px solid rgba(0,0,0,.15);
@@ -549,7 +554,7 @@
   height: 100%;
   display: block;
 
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
 
   padding: 0;
@@ -624,7 +629,7 @@
     object-fit: contain;
     object-position: center;
 }
-  /* =========================================================
+/* =========================================================
    MOBILE RESPONSIVE FIX — WHITESMART
    ========================================================= */
 
@@ -752,6 +757,7 @@
   }
 
   .hero::after {
+    display:block;
     background:
       linear-gradient(
         180deg,
@@ -1259,7 +1265,7 @@
 <div class="stats-strip">
   <div class="container">
     <div class="stats-grid">
-      <div class="stat"><div class="num" data-count="112" data-suffix="+">0</div><div class="lbl">Projets réalisés</div></div>
+      <div class="stat"><div class="num" data-count="200" data-suffix="+">0</div><div class="lbl">Projets réalisés</div></div>
       <div class="stat"><div class="num" data-count="15" data-suffix="+">0</div><div class="lbl">Ans d'expertise</div></div>
       <div class="stat"><div class="num" data-count="43" data-suffix="+">0</div><div class="lbl">Solutions disponibles</div></div>
       <div class="stat"><div class="num" data-count="98" data-suffix="%">0</div><div class="lbl">Engagement qualité</div></div>
@@ -1279,6 +1285,9 @@
     <div class="cat-bar-wrap reveal">
       <div class="cat-bar" id="cat-bar"></div>
     </div>
+
+    <div class="filter-label reveal">MARQUES</div>
+    <div class="filter-row reveal brand-filter-row" id="brand-filter-row"></div>
 
     <div class="filter-row reveal" id="filter-row"></div>
 
@@ -1574,54 +1583,121 @@ const CATEGORIES = [
 
 const APPLICATIONS = ["Toutes","Résidentiel","Industriel","Agricole","Site isolé"];
 
+const BRANDS = ["Toutes", "ABB", "MUST", "SUNTREE", "TOP CABLE", "TUNISIE CABLES", "SUNGROW", "VEICHI", "JINKO"];
+
 const PRODUCTS = [
-  { id:1, name:"KIT POMPAGE DC", category:"KIT POMPAGE DC", brand:"MUST", application:"Agricole",
-    image:"kit.jpeg",
-    shortDescription:"Solution de pompage solaire pour les installations agricoles et les sites isolés." },
+  { id:1, name:"KIT POMPAGE DC", category:"KIT POMPAGE DC", brand:"MUST", application:"Agricole", image:"kit.jpeg", shortDescription:"Solution de pompage solaire pour les installations agricoles et les sites isolés." },
+  { id:2, name:"FILTRE AC", category:"FILTRE AC", brand:"ABB", application:"Industriel", image:"ac.png", shortDescription:"Solution de filtrage destinée aux installations électriques photovoltaïques." },
+  { id:5, name:"VARIATEUR", category:"VARIATEUR", brand:"MUST", application:"Agricole", image:"ph18pro-1.webp", shortDescription:"Solutions de variation pour le pilotage des équipements et systèmes de pompage solaire." },
+  { id:6, name:"CONVERTISSEUR", category:"CONVERTISSEUR", brand:"MUST", application:"Site isolé", image:"conv.jpeg", shortDescription:"Convertisseurs solaires destinés aux installations autonomes et aux systèmes énergétiques." },
+  { id:7, name:"ONDULEUR SITE ISOLÉ", category:"ONDULEUR SITE ISOLÉ", brand:"GROWATT", application:"Site isolé", image:"iso.jpg", shortDescription:"Onduleurs pour les installations photovoltaïques autonomes et les sites hors réseau." },
+  { id:8, name:"RÉGULATEUR DE CHARGE", category:"RÉGULATEUR DE CHARGE", brand:"MUST", application:"Site isolé", image:"reg.jpg", shortDescription:"Régulateurs de charge pour la gestion de l'énergie solaire dans les systèmes photovoltaïques." },
+  { id:10, name:"STRUCTURE ALUMINIUM", category:"STRUCTURE ALUMINIUM", brand:"ABB", application:"Résidentiel", image:"str.jpeg", shortDescription:"Solutions de support et de fixation pour l'installation des panneaux photovoltaïques." },
 
-  { id:2, name:"FILTRE AC", category:"FILTRE AC", brand:"ABB", application:"Industriel",
-    image:"ac.png",
-    shortDescription:"Solution de filtrage destinée aux installations électriques photovoltaïques." },
 
-  { id:3, name:"PANNEAUX PHOTOVOLTAÏQUES", category:"PANNEAUX PHOTOVOLTAÏQUES", brand:"JINKO", application:"Résidentiel",
-    image:"pan.jpg",
-    shortDescription:"Panneaux photovoltaïques pour les installations résidentielles, commerciales et industrielles." },
+  //  — ABB (produits photovoltaïques uniquement)
+  { id:101, name:"COFFRET ABB 12 MODULES", category:"COFFRETS", brand:"ABB", application:"Toutes", image:"cof.jpg", shortDescription:"Coffret ABB 12 modules référencé MINICOF_12." },
+  { id:102, name:"COFFRET ABB 24 MODULES", category:"COFFRETS", brand:"ABB", application:"Toutes", image:"abb1.webp", shortDescription:"Coffret ABB 24 modules pour installations électriques photovoltaïques." },
+  { id:103, name:"COFFRET ABB 8 MODULES", category:"COFFRETS", brand:"ABB", application:"Toutes", image:"abb2.jpg", shortDescription:"Coffret ABB 8 modules pour installations électriques photovoltaïques." },
+  { id:104, name:"COFFRET ABB 36 MODULES", category:"COFFRETS", brand:"ABB", application:"Toutes", image:"abb3.jpg", shortDescription:"Coffret ABB 36 modules." },
+  { id:105, name:"DISJONCTEUR DIFFERENTIEL TRIPHASÉ 16 A 300 mA ABB", category:"COMPOSANTS DE PROTECTION", brand:"ABB", application:"Toutes", image:"abb4.jpg", shortDescription:"Disjoncteur différentiel triphasé ABB 16 A / 300 mA." },
+  { id:106, name:"INTERSECTIONNEUR 25 A 1000 VDC ABB", category:"COMPOSANTS DE PROTECTION", brand:"ABB", application:"Toutes", image:"abb5.jpg", shortDescription:"Intersectionneur ABB 25 A / 1000 VDC." },
+  { id:107, name:"PARAFOUDRE AC MONOPHASÉ ABB", category:"COMPOSANTS DE PROTECTION", brand:"ABB", application:"Toutes", image:"abb6.jpg", shortDescription:"Parafoudre AC monophasé ABB, référence PRDAC_2PABB." },
 
-  { id:4, name:"ONDULEUR", category:"ONDULEUR", brand:"SUNGROW", application:"Résidentiel",
-    image:"ond.png",
-    shortDescription:"Onduleurs solaires pour la conversion et la gestion de l'énergie photovoltaïque." },
+  //  — MUST
+  { id:555, name:"CONVERTISSEUR 5000W_ 48V", category:"CONVERTISSEUR", brand:"MUST", application:"Toutes", image:"mst1.jpg", shortDescription:"Convertisseur MUST 5000 W / 48 V, référence CONV_5000_48." },
+  { id:666, name:"BATTERIE SOLAIRE 12V 100AH", category:"BATTERIE", brand:"MUST", application:"Toutes", image:"bat1.jpeg", shortDescription:"" },
+  { id:777, name:"BATTERIE LITHIUM LiFePO4 5KWH", category:"BATTERIE", brand:"MUST", application:"Toutes", image:"bat2.jpeg", shortDescription:"" },
 
-  { id:5, name:"VARIATEUR", category:"VARIATEUR", brand:"MUST", application:"Agricole",
-    image:"ph18pro-1.webp",
-    shortDescription:"Solutions de variation pour le pilotage des équipements et systèmes de pompage solaire." },
+  //  — SUNTREE
+  { id:301, name:"CONNECTEUR FEMELLE", category:"COMPOSANTS DE PROTECTION", brand:"SUNTREE", application:"Toutes", image:"st1.png", shortDescription:"Connecteur femelle SUNTREE pour installation photovoltaïque." },
+  { id:302, name:"CONNECTEUR MALE", category:"COMPOSANTS DE PROTECTION", brand:"SUNTREE", application:"Toutes", image:"st2.png", shortDescription:"Connecteur mâle SUNTREE pour installation photovoltaïque." },
+  { id:303, name:"DISJONCTEUR DC 2P 32A 600V", category:"COMPOSANTS DE PROTECTION", brand:"SUNTREE", application:"Toutes", image:"st3.jpg", shortDescription:"Disjoncteur DC SUNTREE 2P, 32 A, 600 V." },
+  { id:304, name:"DISJONCTEUR DC 4P 25A 1200V", category:"COMPOSANTS DE PROTECTION", brand:"SUNTREE", application:"Toutes", image:"sunt.jpg", shortDescription:"Disjoncteur DC SUNTREE 4P, 25 A, 1200 V." },
+  { id:305, name:"DISJONCTEUR DC 4P 32A 1200V", category:"COMPOSANTS DE PROTECTION", brand:"SUNTREE", application:"Toutes",image:"sunt.jpg", shortDescription:"Disjoncteur DC SUNTREE 4P, 32 A, 1200 V." },
+  { id:306, name:"PARAFOUDRE 2P MONOPH AC SUNTREE", category:"COMPOSANTS DE PROTECTION", brand:"SUNTREE", application:"Toutes", image:"st4.jpg", shortDescription:"Parafoudre AC monophasé SUNTREE 2P." },
+  { id:307, name:"DISJONCTEUR DC 2P 20A 600V", category:"COMPOSANTS DE PROTECTION", brand:"SUNTREE", application:"Toutes", image:"st3.jpg", shortDescription:"Disjoncteur DC SUNTREE 2P, 20 A, 600 V." },
+  { id:308, name:"DISJONCTEUR DC 4P 20A 1000V", category:"COMPOSANTS DE PROTECTION", brand:"SUNTREE", application:"Toutes", image:"sunt.jpg", shortDescription:"Disjoncteur DC SUNTREE 4P, 20 A, 1000 V." },
+  { id:309, name:"DISJONCTEUR DC 4P 40A 1000V", category:"COMPOSANTS DE PROTECTION", brand:"SUNTREE", application:"Toutes", image:"sunt.jpg", shortDescription:"Disjoncteur DC SUNTREE 4P, 40 A, 1000 V." },
+  { id:310, name:"DISJONCTEUR DC 4P 63A 1000V", category:"COMPOSANTS DE PROTECTION", brand:"SUNTREE", application:"Toutes", image:"sunt.jpg", shortDescription:"Disjoncteur DC SUNTREE 4P, 63 A, 1000 V." },
+  { id:311, name:"PARAFOUDRE 600V SUNTREE", category:"COMPOSANTS DE PROTECTION", brand:"SUNTREE", application:"Toutes", image:"st6.jpg", shortDescription:"Parafoudre photovoltaïque SUNTREE 600 V, référence PRDDC_600_SUNTREE." },
+  { id:312, name:"PARAFOUDRE 1000V SUNTREE", category:"COMPOSANTS DE PROTECTION", brand:"SUNTREE", application:"Toutes", image:"st5.jpg", shortDescription:"Parafoudre photovoltaïque SUNTREE 1000 V, référence PRDDC_1000_SUNTREE." },
+  { id:313, name:"PARAFOUDRE 4P TRIPH AC SUNTREE", category:"COMPOSANTS DE PROTECTION", brand:"SUNTREE", application:"Toutes", image:"st7.jpg", shortDescription:"Parafoudre AC triphasé SUNTREE 4P." },
+  { id:314, name:"INTERSECTIONNEUR DC 100A 1000VDC", category:"COMPOSANTS DE PROTECTION", brand:"SUNTREE", application:"Toutes", image:"st8.jpg", shortDescription:"Intersectionneur DC SUNTREE 100 A / 1000 VDC." },
+  { id:315, name:"INTERSE DC 25A 1000VDC SUNTREE", category:"COMPOSANTS DE PROTECTION", brand:"SUNTREE", application:"Toutes", image:"st9.jpg", shortDescription:"Intersectionneur DC SUNTREE 25 A / 1000 VDC." },
 
-  { id:6, name:"CONVERTISSEUR", category:"CONVERTISSEUR", brand:"MUST", application:"Site isolé",
-    image:"conv.jpeg",
-    shortDescription:"Convertisseurs solaires destinés aux installations autonomes et aux systèmes énergétiques." },
+  //  — Top Cable
+  { id:401, name:"CÂBLE 4mm NOIR 500 m", category:"CÂBLE SOLAIRE", brand:"TOP CABLE", application:"Toutes", image:"top1.jpg", shortDescription:"Câble TOPSOLAR PV H1Z2Z2-K 4 mm noir, touret 500 m." },
+  { id:402, name:"CÂBLE 4mm ROUGE 100 m", category:"CÂBLE SOLAIRE", brand:"TOP CABLE", application:"Toutes", image:"top2.jpg", shortDescription:"Câble TOPSOLAR PV H1Z2Z2-K 4 mm rouge, 100 m." },
+  { id:403, name:"CÂBLE 4mm NOIR 100 m", category:"CÂBLE SOLAIRE", brand:"TOP CABLE", application:"Toutes", image:"top3.jpg", shortDescription:"Câble TOPSOLAR PV H1Z2Z2-K 4 mm noir, 100 m." },
+  { id:404, name:"CÂBLE 4mm ROUGE 500 m", category:"CÂBLE SOLAIRE", brand:"TOP CABLE", application:"Toutes", image:"top4.jpg", shortDescription:"Câble TOPSOLAR PV H1Z2Z2-K 4 mm rouge, 500 m." },
+  { id:405, name:"CÂBLE 6 mm NOIR 100 m", category:"CÂBLE SOLAIRE", brand:"TOP CABLE", application:"Toutes", image:"top3.jpg", shortDescription:"Câble TOPSOLAR PV H1Z2Z2-K 6 mm noir, 100 m." },
+  { id:406, name:"CÂBLE 6 mm ROUGE 500 m", category:"CÂBLE SOLAIRE", brand:"TOP CABLE", application:"Toutes", image:"top4.jpg", shortDescription:"Câble TOPSOLAR PV H1Z2Z2-K 6 mm rouge, 500 m." },
+  { id:407, name:"CÂBLE 6 mm NOIR 500 m", category:"CÂBLE SOLAIRE", brand:"TOP CABLE", application:"Toutes", image:"top1.jpg", shortDescription:"Câble TOPSOLAR PV H1Z2Z2-K 6 mm noir, 500 m." },
+  { id:408, name:"CÂBLE 10 mm NOIR", category:"CÂBLE SOLAIRE", brand:"TOP CABLE", application:"Toutes", image:"top1.jpg", shortDescription:"Câble TOPSOLAR PV H1Z2Z2-K 10 mm noir, référence CAB_PV_1X10_NR500." },
+  { id:409, name:"CÂBLE 10 MM ROUGE", category:"CÂBLE SOLAIRE", brand:"TOP CABLE", application:"Toutes", image:"top4.jpg", shortDescription:"Câble TOPSOLAR PV H1Z2Z2-K 10 mm rouge." },
 
-  { id:7, name:"ONDULEUR SITE ISOLÉ", category:"ONDULEUR SITE ISOLÉ", brand:"GROWATT", application:"Site isolé",
-    image:"iso.jpg",
-    shortDescription:"Onduleurs pour les installations photovoltaïques autonomes et les sites hors réseau." },
+  //  — Tunisie Cables
+  { id:501, name:"CABLE 4mm NOIR 100 M", category:"CÂBLE SOLAIRE", brand:"TUNISIE CABLES", application:"Toutes", image:"tc1.png", shortDescription:"Câble photovoltaïque Tunisie Cables 4 mm noir, 100 m." },
+  { id:502, name:"CABLE 4mm ROUGE 100 M", category:"CÂBLE SOLAIRE", brand:"TUNISIE CABLES", application:"Toutes", image:"tc2.png", shortDescription:"Câble photovoltaïque Tunisie Cables 4 mm rouge, 100 m." },
+  { id:503, name:"CABLE 6mm NOIR 100 M", category:"CÂBLE SOLAIRE", brand:"TUNISIE CABLES", application:"Toutes", image:"tc1.png", shortDescription:"Câble photovoltaïque Tunisie Cables 6 mm noir, 100 m." },
+  { id:504, name:"CABLE 6mm NOIR 500 M", category:"CÂBLE SOLAIRE", brand:"TUNISIE CABLES", application:"Toutes", image:"tc1.png", shortDescription:"Câble photovoltaïque Tunisie Cables 6 mm noir, 500 m." },
+  { id:505, name:"CABLE 6mm ROUGE 100 M", category:"CÂBLE SOLAIRE", brand:"TUNISIE CABLES", application:"Toutes", image:"tc2.png", shortDescription:"Câble photovoltaïque Tunisie Cables 6 mm rouge, 100 m." },
+  { id:506, name:"CABLE 6mm ROUGE 500 M", category:"CÂBLE SOLAIRE", brand:"TUNISIE CABLES", application:"Toutes", image:"tc2.png", shortDescription:"Câble photovoltaïque Tunisie Cables 6 mm rouge, 500 m." },
 
-  { id:8, name:"RÉGULATEUR DE CHARGE", category:"RÉGULATEUR DE CHARGE", brand:"MUST", application:"Site isolé",
-    image:"reg.jpg",
-    shortDescription:"Régulateurs de charge pour la gestion de l'énergie solaire dans les systèmes photovoltaïques." },
+  //  — SUNGROW (photovoltaïque / monitoring, hors E-Mobility)
+  { id:601, name:"COM100E", category:"SUPERVISION & MONITORING", brand:"SUNGROW", application:"Toutes", image:"sg1.jpg", shortDescription:"Système Sungrow COM100E pour supervision et monitoring photovoltaïque." },
+  { id:602, name:"EyeM4", category:"SUPERVISION & MONITORING", brand:"SUNGROW", application:"Toutes", image:"sg2.png", shortDescription:"Solution Sungrow EyeM4 pour le monitoring photovoltaïque." },
+  { id:603, name:"Micro Onduleur S1000S – L", category:"ONDULEUR", brand:"SUNGROW", application:"Toutes", image:"sg3.png", shortDescription:"Micro-onduleur Sungrow S1000S-L." },
+  { id:604, name:"Micro onduleur S450S", category:"ONDULEUR", brand:"SUNGROW", application:"Toutes", image:"sg4.webp", shortDescription:"Micro-onduleur Sungrow S450S." },
+  { id:605, name:"OND SUNGROW SG2.0RS-S", category:"ONDULEUR", brand:"SUNGROW", application:"Toutes", image:"sg5.png", shortDescription:"Onduleur photovoltaïque Sungrow SG2.0RS-S." },
+  { id:606, name:"OND SUNGROW SG3.0RS", category:"ONDULEUR", brand:"SUNGROW", application:"Toutes", image:"sg6.png", shortDescription:"Onduleur photovoltaïque Sungrow SG3.0RS." },
+  { id:607, name:"OND SUNGROW SG5.0RS", category:"ONDULEUR", brand:"SUNGROW", application:"Toutes", image:"sg7.png", shortDescription:"Onduleur photovoltaïque Sungrow SG5.0RS." },
+  { id:608, name:"OND SUNGROW SG6.0RS", category:"ONDULEUR", brand:"SUNGROW", application:"Toutes", image:"sg7.png", shortDescription:"Onduleur photovoltaïque Sungrow SG6.0RS." },
+  { id:609, name:"ONDULEUR SUNGROW SG 50CX-P2", category:"ONDULEUR", brand:"SUNGROW", application:"Toutes", image:"sg8.png", shortDescription:"Onduleur photovoltaïque Sungrow SG50CX-P2." },
+  { id:610, name:"ONDULEUR SUNGROW SG10.0RT-P2", category:"ONDULEUR", brand:"SUNGROW", application:"Toutes", image:"sg9.png", shortDescription:"Onduleur photovoltaïque Sungrow SG10.0RT-P2." },
+  { id:611, name:"ONDULEUR SUNGROW SG12.0RT-P2", category:"ONDULEUR", brand:"SUNGROW", application:"Toutes", image:"sg9.png", shortDescription:"Onduleur photovoltaïque Sungrow SG12.0RT-P2." },
+  { id:612, name:"ONDULEUR SUNGROW SG15.0RT-P2", category:"ONDULEUR", brand:"SUNGROW", application:"Toutes", image:"sg10.webp", shortDescription:"Onduleur photovoltaïque Sungrow SG15.0RT-P2." },
+  { id:613, name:"ONDULEUR SUNGROW SG20.0RT-P2", category:"ONDULEUR", brand:"SUNGROW", application:"Toutes", image:"sg10.webp", shortDescription:"Onduleur photovoltaïque Sungrow SG20.0RT-P2." },
+  { id:614, name:"ONDULEUR SUNGROW SG125CX-P2", category:"ONDULEUR", brand:"SUNGROW", application:"Toutes", image:"sg11.png", shortDescription:"Onduleur photovoltaïque Sungrow SG125CX-P2." },
 
-  { id:9, name:"CÂBLE SOLAIRE", category:"CÂBLE SOLAIRE", brand:"TOP CABLE · TUNISIE CABLE", application:"Résidentiel",
-    image:"cablen.jpeg",
-    shortDescription:"Câbles solaires destinés au raccordement des différents éléments d'une installation photovoltaïque." },
+  //  — VEICHI
+  { id:701, name:"SIS-5KW-48V", category:"ONDULEUR SITE ISOLÉ", brand:"VEICHI", application:"Site isolé", image:"ve1.png", shortDescription:"Onduleur solaire VEICHI SIS-5KW-48V pour installations autonomes." },
+  { id:702, name:"SIS4-1KW-12V", category:"ONDULEUR SITE ISOLÉ", brand:"VEICHI", application:"Site isolé", image:"ve2.png  ", shortDescription:"Onduleur solaire VEICHI SIS4-1KW-12V avec régulation MPPT intégrée." },
+  { id:703, name:"SIS4-2KW-12V", category:"ONDULEUR SITE ISOLÉ", brand:"VEICHI", application:"Site isolé", image:"ve3.jpg", shortDescription:"Onduleur solaire VEICHI SIS4-2KW-12V pour systèmes photovoltaïques autonomes." },
+  { id:704, name:"SIS4-3.2KW-24V", category:"ONDULEUR SITE ISOLÉ", brand:"VEICHI", application:"Site isolé", image:"ve4.jpg", shortDescription:"Onduleur solaire VEICHI SIS4-3.2KW-24V pour installations hors réseau." },
+  { id:705, name:"Kit Pompe de surface 1.5CV", category:"KIT POMPAGE DC", brand:"VEICHI", application:"Agricole", image:"ve5.png", shortDescription:"Kit de pompage solaire VEICHI pour pompe de surface 1,5 CV." },
+  { id:706, name:"KIT POMPE DE SURFACE 1CV", category:"KIT POMPAGE DC", brand:"VEICHI", application:"Agricole", image:"ve6.png", shortDescription:"Kit de pompage solaire VEICHI pour pompe de surface 1 CV." },
+  { id:707, name:"Kit Pompe Immergée 1.5CV 3 Pouce", category:"KIT POMPAGE DC", brand:"VEICHI", application:"Agricole", image:"ve7.jpg", shortDescription:"Kit de pompage solaire VEICHI avec pompe immergée 1,5 CV, 3 pouces." },
+  { id:708, name:"Kit Pompe Immergée 1.5CV 4 Pouce", category:"KIT POMPAGE DC", brand:"VEICHI", application:"Agricole", image:"ve7.jpg", shortDescription:"Kit de pompage solaire VEICHI avec pompe immergée 1,5 CV, 4 pouces." },
+  { id:709, name:"Kit Pompe Immergée 1CV 3 Pouce", category:"KIT POMPAGE DC", brand:"VEICHI", application:"Agricole", image:"ve7.jpg", shortDescription:"Kit de pompage solaire VEICHI avec pompe immergée 1 CV, 3 pouces." },
+  { id:710, name:"Kit Pompe Immergée 1CV 4 Pouce", category:"KIT POMPAGE DC", brand:"VEICHI", application:"Agricole", image:"ve7.jpg", shortDescription:"Kit de pompage solaire VEICHI avec pompe immergée 1 CV, 4 pouces." },
+  { id:711, name:"Kit Pompe immergée 2 CV 3 pouce", category:"KIT POMPAGE DC", brand:"VEICHI", application:"Agricole", image:"ve7.jpg", shortDescription:"Kit de pompage solaire VEICHI avec pompe immergée 2 CV, 3 pouces." },
+  { id:712, name:"Kit Pompe Immergée 2CV 4 Pouce", category:"KIT POMPAGE DC", brand:"VEICHI", application:"Agricole", image:"ve7.jpg", shortDescription:"Kit de pompage solaire VEICHI avec pompe immergée 2 CV, 4 pouces." },
+  { id:713, name:"VEICHI – 220V – 5.5 kW", category:"VARIATEUR", brand:"VEICHI", application:"Agricole", image:"ve8.jpg", shortDescription:"Variateur VEICHI SI23 220 V / 5,5 kW pour pompage solaire." },
+  { id:714, name:"VEICHI – 220 V – 4 kW", category:"VARIATEUR", brand:"VEICHI", application:"Agricole", image:"ve9.jpg", shortDescription:"Variateur VEICHI 220 V / 4 kW pour applications de pompage solaire." },
+  { id:715, name:"VEICHI – 220V – 7.5 kW", category:"VARIATEUR", brand:"VEICHI", application:"Agricole", image:"ve8.jpg", shortDescription:"Variateur VEICHI 220 V / 7,5 kW pour pompage solaire." },
+  { id:716, name:"VEICHI – 220V – 11 kW", category:"VARIATEUR", brand:"VEICHI", application:"Agricole", image:"ve8.jpg", shortDescription:"Variateur VEICHI 220 V / 11 kW pour pompage solaire." },
+  { id:717, name:"VEICHI – 380 V – 4 kW", category:"VARIATEUR", brand:"VEICHI", application:"Agricole", image:"ve8.jpg", shortDescription:"Variateur VEICHI 380 V / 4 kW pour pompage solaire." },
+  { id:718, name:"VEICHI – 380 V – 5.5 KW-900V", category:"VARIATEUR", brand:"VEICHI", application:"Agricole", image:"ve8.jpg", shortDescription:"Variateur VEICHI 380 V / 5,5 kW avec entrée solaire jusqu’à 900 V." },
+  { id:719, name:"VEICHI – 380 V – 7.5 kW-900V", category:"VARIATEUR", brand:"VEICHI", application:"Agricole", image:"ve8.jpg", shortDescription:"Variateur VEICHI 380 V / 7,5 kW avec entrée solaire jusqu’à 900 V." },
+  { id:720, name:"VEICHI – 380 V – 11 kW-900V", category:"VARIATEUR", brand:"VEICHI", application:"Agricole", image:"ve8.jpg", shortDescription:"Variateur VEICHI 380 V / 11 kW avec entrée solaire jusqu’à 900 V." },
+  { id:721, name:"VEICHI – 380 V – 15 kW-900V", category:"VARIATEUR", brand:"VEICHI", application:"Agricole", image:"ve8.jpg", shortDescription:"Variateur VEICHI 380 V / 15 kW avec entrée solaire jusqu’à 900 V." },
+  { id:722, name:"VEICHI – 380 V – 18 kW-900V", category:"VARIATEUR", brand:"VEICHI", application:"Agricole", image:"ve8.jpg", shortDescription:"Variateur VEICHI 380 V / 18 kW avec entrée solaire jusqu’à 900 V." },
+  { id:723, name:"VEICHI – 380 V – 22 kW-900V", category:"VARIATEUR", brand:"VEICHI", application:"Agricole", image:"ve8.jpg", shortDescription:"Variateur VEICHI 380 V / 22 kW avec entrée solaire jusqu’à 900 V." },
+  { id:724, name:"VEICHI – 380 V – 30 kW-900V", category:"VARIATEUR", brand:"VEICHI", application:"Agricole", image:"ve8.jpg", shortDescription:"Variateur VEICHI 380 V / 30 kW avec entrée solaire jusqu’à 900 V." },
+  { id:725, name:"VEICHI – 380 V – 37 kW-900V", category:"VARIATEUR", brand:"VEICHI", application:"Agricole", image:"ve8.jpg", shortDescription:"Variateur VEICHI 380 V / 37 kW avec entrée solaire jusqu’à 900 V." },
+  { id:726, name:"VEICHI – 380 V – 45 kW", category:"VARIATEUR", brand:"VEICHI", application:"Agricole", image:"ve8.jpg", shortDescription:"Variateur VEICHI 380 V / 45 kW pour applications de pompage solaire." },
+  { id:727, name:"VEICHI – 380 V – 75 kW", category:"VARIATEUR", brand:"VEICHI", application:"Agricole", image:"ve8.jpg", shortDescription:"Variateur VEICHI 380 V / 75 kW pour applications de pompage solaire." },
 
-  { id:10, name:"STRUCTURE ALUMINIUM", category:"STRUCTURE ALUMINIUM", brand:"ABB", application:"Résidentiel",
-    image:"str.jpeg",
-    shortDescription:"Solutions de support et de fixation pour l'installation des panneaux photovoltaïques." },
-
-  { id:11, name:"COMPOSANTS DE PROTECTION", category:"COMPOSANTS DE PROTECTION", brand:"SUNTREE · ABB", application:"Industriel",
-    image:"sunt.jpg",
-    shortDescription:"Composants destinés à la protection et à la sécurisation des installations photovoltaïques." },
-
-  { id:12, name:"COFFRETS", category:"COFFRETS", brand:"SUNTREE · ABB", application:"Résidentiel",
-    image:"cof.jpg",
-    shortDescription:"Coffrets pour organiser et protéger les équipements électriques des installations photovoltaïques." }
+  //  —  panels displayed as JINKO on WhiteSmart
+  { id:801, name:"JINKO Solar LR5-54HTH 425M", category:"PANNEAUX PHOTOVOLTAÏQUES", brand:"JINKO", application:"Résidentiel", image:"jin1.jpg", shortDescription:"Panneau photovoltaïque 425 Wc, modèle LR5-54HTH 425M  ." },
+  { id:802, name:"JINKO Solar Bi-Facial 610 WC", category:"PANNEAUX PHOTOVOLTAÏQUES", brand:"JINKO", application:"Industriel", image:"jin2.webp", shortDescription:"Panneau photovoltaïque bifacial 610 Wc, modèle  ." },
+  { id:803, name:"JINKO Solar Bi-Facial 615 WC", category:"PANNEAUX PHOTOVOLTAÏQUES", brand:"JINKO", application:"Industriel", image:"jin3.jpg", shortDescription:"Panneau photovoltaïque bifacial 615 Wc, modèle  ." },
+  { id:804, name:"JINKO Solar Bi-Facial 645", category:"PANNEAUX PHOTOVOLTAÏQUES", brand:"JINKO", application:"Industriel", image:"jin4.webp", shortDescription:"Panneau photovoltaïque bifacial 645 Wc, modèle  ." },
+  { id:805, name:"JINKO Solar Bi-Facial 650 WC", category:"PANNEAUX PHOTOVOLTAÏQUES", brand:"JINKO", application:"Industriel", image:"jin5.jpg", shortDescription:"Panneau photovoltaïque bifacial 650 Wc, modèle  ." },
+  { id:806, name:"JINKO Solar 440 WC", category:"PANNEAUX PHOTOVOLTAÏQUES", brand:"JINKO", application:"Résidentiel", image:"jen6.jpg", shortDescription:"Panneau photovoltaïque 440 Wc, modèle MD_LR4_72HBD_440M  ." },
+  { id:807, name:"JINKO Solar LR4-72HPB 425M", category:"PANNEAUX PHOTOVOLTAÏQUES", brand:"JINKO", application:"Résidentiel", image:"jin4.webp", shortDescription:"Panneau photovoltaïque 425 Wc, modèle LR4-72HPB 425M  ." }
 ];
 
 const SERVICES = [
@@ -1675,7 +1751,7 @@ const PROJECTS = [
   image: "p2.jpeg",
   size: "p-small",
 
-  description: "Installation d'un système photovoltaïque au sein d'une école afin de contribuer à la réduction de sa consommation d'électricité et de favoriser l'utilisation d'une énergie propre et renouvelable. Cette installation a été réalisée gratuitement dans le cadre d'une initiative solidaire visant à accompagner l'établissement dans sa transition vers l'énergie solaire.",
+  description: "Ce projet solidaire avait pour objectif d’apporter l’électricité et l’énergie solaire à une école isolée qui n’était pas raccordée au réseau électrique. Grâce à l’installation de panneaux photovoltaïques, nous avons fourni à l’école une source d’énergie propre, autonome et durable, permettant notamment d’améliorer les conditions d’apprentissage des élèves.L’ensemble du projet a été réalisé bénévolement et gratuitement, afin d’aider l’école et ses élèves sans leur imposer de frais. Cette initiative représente un engagement concret en faveur de l’éducation, de l’accès à l’énergie et du développement durable, en utilisant l’énergie solaire pour répondre aux besoins d’une communauté qui en était privée.",
 
   technicalDetails: "Mise en place d'une installation photovoltaïque adaptée aux besoins énergétiques de l'établissement, comprenant la pose des équipements solaires et leur raccordement à l'installation électrique de l'école.",
 
@@ -1683,7 +1759,7 @@ const PROJECTS = [
 
   gallery: [
     "p2g1.jpeg",
-    "p2g2.jpeg",
+    "p2g2.jpg",
     "p2g3.jpeg"
   ]
 },
@@ -1793,6 +1869,7 @@ $$('[data-count]').forEach(el => statObserver.observe(el));
 /* ---------- Category bar ---------- */
 let activeCategory = "Tous";
 let activeApplication = "Toutes";
+let activeBrand = "Toutes";
 
 function renderCategoryBar(){
   const bar = $('#cat-bar');
@@ -1802,6 +1879,18 @@ function renderCategoryBar(){
   $$('.cat-pill', bar).forEach(btn => btn.addEventListener('click', () => {
     activeCategory = btn.dataset.cat;
     renderCategoryBar();
+    renderProducts();
+  }));
+}
+
+function renderBrandFilter(){
+  const row = $('#brand-filter-row');
+  row.innerHTML = BRANDS.map(b =>
+    `<button class="filter-chip ${b===activeBrand?'active':''}" data-brand="${b}">${b}</button>`
+  ).join('');
+  $$('.filter-chip', row).forEach(btn => btn.addEventListener('click', () => {
+    activeBrand = btn.dataset.brand;
+    renderBrandFilter();
     renderProducts();
   }));
 }
@@ -1822,7 +1911,8 @@ function renderFilterRow(){
 function renderProducts(){
   const list = PRODUCTS.filter(p =>
     (activeCategory === "Tous" || p.category === activeCategory) &&
-    (activeApplication === "Toutes" || p.application === activeApplication)
+    (activeApplication === "Toutes" || p.application === activeApplication || p.application === "Toutes") &&
+    (activeBrand === "Toutes" || p.brand.split(" · ").map(x => x.trim()).includes(activeBrand))
   );
   const wrap = $('#product-carousel');
   if (!list.length){
@@ -1888,7 +1978,6 @@ function openProductModal(id){
       <p class="desc">${p.shortDescription}</p>
       <div class="modal-ctas">
         <a href="#contact" class="btn-orange" data-close>DEMANDER DES INFORMATIONS</a>
-        <a href="#contact" class="btn-outline-dark" data-close>CONTACTER WHITESMART</a>
       </div>
     </div>
   `;
@@ -1978,6 +2067,7 @@ function renderPartners(){
     { name: "sungrow", logo: "sungrow-logo-png_seeklogo-583354.png" },
     { name: "suntree", logo: "logo-suntree.png" },
     { name: "abb", logo: "images (9).png" },
+    { name: "veichi", logo: "vei1.jpg" },
   ];
 
   $('#partners-grid').innerHTML = partners.map(partner => `
@@ -2032,6 +2122,7 @@ form.addEventListener('submit', (e) => {
 
 /* ---------- Init ---------- */
 renderCategoryBar();
+renderBrandFilter();
 renderFilterRow();
 renderProducts();
 renderServices();
