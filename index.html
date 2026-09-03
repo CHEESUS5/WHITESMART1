@@ -367,8 +367,24 @@
   .partner-box span{ font-size:.7rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#999; }
 
   /* ===== CTA ===== */
-  .cta-block{ position:relative; background:var(--black); color:#fff; text-align:center; padding:120px 24px; overflow:hidden; }
+  .cta-block{ position:relative; background:var(--black); color:#fff; text-align:center; padding:120px 24px; overflow:visible; min-height:560px; }
   .cta-block .bolt-bg{ position:absolute; opacity:.06; }
+
+  /* ===== CTA MAN ===== */
+  .cta-man{
+    position:absolute;
+    left:2%;
+    top:-35px;
+    height:600px;
+    width:auto;
+    max-width:none;
+    z-index:1;
+    pointer-events:none;
+  }
+  .cta-block > .container{
+    position:relative;
+    z-index:2;
+  }
   .cta-block h2{ font-size:clamp(2.2rem,5vw,4rem); text-transform:uppercase; max-width:16ch; margin:0 auto 22px; }
   .cta-block p{ color:rgba(255,255,255,.6); max-width:520px; margin:0 auto 40px; font-size:1.02rem; line-height:1.6; }
   .cta-btns{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
@@ -1198,41 +1214,32 @@
 }
 
 
-  /* ===== CTA MAN — ADDED ===== */
-  .cta-block{
-    min-height:560px;
-    display:flex;
-    align-items:center;
-    overflow:visible;
-  }
-  .cta-man{
-    position:absolute;
-    left:max(20px, calc(50% - 680px));
-    bottom:0;
-    height:620px;
-    width:auto;
-    z-index:1;
-    pointer-events:none;
-    object-fit:contain;
-    object-position:bottom center;
-  }
-  .cta-block > .container{
-    position:relative;
-    z-index:2;
-    width:58%;
-    margin-left:42%;
-    margin-right:0;
-  }
 
-  @media (max-width: 1024px){
+  /* ===== CTA MAN — MOBILE ===== */
+  @media (max-width: 640px){
+    .cta-block{
+      min-height:0;
+      padding:360px 20px 70px;
+      overflow:visible;
+    }
     .cta-man{
-      display:none;
+      height:370px;
+      width:auto;
+      max-width:none;
+      left:50%;
+      top:-22px;
+      transform:translateX(-50%);
+      z-index:1;
     }
     .cta-block > .container{
-      width:100%;
-      margin-left:0;
-      margin-right:auto;
+      position:relative;
+      z-index:2;
     }
+  }
+
+  @media (max-width: 380px){
+    .cta-block{ padding-top:330px; }
+    .cta-man{ height:340px; top:-18px; }
   }
 </style>
 </head>
@@ -1820,7 +1827,7 @@ const PROJECTS = [
     image:"p3.jpeg",
     size:"p-small",
 
-    description:"Projet réalisé dans le cadre d’une collaboration avec un showroom situé en Allemagne Hanovre et Frankfurt, mettant en avant les solutions de mobilité électrique et l’intégration de véhicules électriques dans un environnement professionnel.",
+    description:"Projet réalisé dans le cadre d’une collaboration avec un showroom en Allemagne Hanovre et Frankfurt, mettant en avant les solutions de mobilité électrique et l’intégration de véhicules électriques dans un environnement professionnel.",
 
     technicalDetails:"Présentation et mise en valeur de véhicules électriques et de solutions liées à la mobilité durable. Projet réalisé en collaboration avec le partenaire.",
 
