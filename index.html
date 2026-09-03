@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="icon" type="image/png" href="logo.png">
 <style>
   :root{
     --black:#050505;
@@ -1198,6 +1197,43 @@
   }
 }
 
+
+  /* ===== CTA MAN — ADDED ===== */
+  .cta-block{
+    min-height:560px;
+    display:flex;
+    align-items:center;
+    overflow:visible;
+  }
+  .cta-man{
+    position:absolute;
+    left:max(20px, calc(50% - 680px));
+    bottom:0;
+    height:620px;
+    width:auto;
+    z-index:1;
+    pointer-events:none;
+    object-fit:contain;
+    object-position:bottom center;
+  }
+  .cta-block > .container{
+    position:relative;
+    z-index:2;
+    width:58%;
+    margin-left:42%;
+    margin-right:0;
+  }
+
+  @media (max-width: 1024px){
+    .cta-man{
+      display:none;
+    }
+    .cta-block > .container{
+      width:100%;
+      margin-left:0;
+      margin-right:auto;
+    }
+  }
 </style>
 </head>
 <body>
@@ -1381,6 +1417,7 @@
 
 <!-- ============ CTA ============ -->
 <section class="cta-block reveal">
+  <img src="omda.png" alt="" class="cta-man" aria-hidden="true">
   <div class="container">
     <h2>VOTRE PROJET COMMENCE ICI.</h2>
     <p>Besoin d'une solution photovoltaïque adaptée à vos besoins&nbsp;? Notre équipe est à votre écoute.</p>
@@ -1783,7 +1820,7 @@ const PROJECTS = [
     image:"p3.jpeg",
     size:"p-small",
 
-    description:"Projet réalisé dans le cadre d’une collaboration avec un showroom en Allemagne Hanovre et Frankfurt, mettant en avant les solutions de mobilité électrique et l’intégration de véhicules électriques dans un environnement professionnel.",
+    description:"Projet réalisé dans le cadre d’une collaboration avec un showroom situé en Allemagne Hanovre et Frankfurt, mettant en avant les solutions de mobilité électrique et l’intégration de véhicules électriques dans un environnement professionnel.",
 
     technicalDetails:"Présentation et mise en valeur de véhicules électriques et de solutions liées à la mobilité durable. Projet réalisé en collaboration avec le partenaire.",
 
