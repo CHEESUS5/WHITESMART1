@@ -374,20 +374,64 @@
   .cta-man{
     position:absolute;
     left:2%;
-    top:-35px;
-    height:600px;
+    top:35px;
+    height: 800px;
     width:auto;
     max-width:none;
     z-index:1;
     pointer-events:none;
+    padding: 50px;;
   }
   .cta-block > .container{
     position:relative;
     z-index:2;
   }
+
   .cta-block h2{ font-size:clamp(2.2rem,5vw,4rem); text-transform:uppercase; max-width:16ch; margin:0 auto 22px; }
   .cta-block p{ color:rgba(255,255,255,.6); max-width:520px; margin:0 auto 40px; font-size:1.02rem; line-height:1.6; }
   .cta-btns{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+
+  /* ===== CTA MAN — DESKTOP LAYOUT ===== */
+  @media (min-width: 641px){
+  .cta-man{
+    height: 800px;   /* bigger */
+    width: auto;
+    left: -20px;     /* further left */
+    top: -140px;     /* pushes him upward */
+    z-index: 3;
+  }
+
+  .cta-block{
+    overflow: visible;
+  }
+}
+ .cta-block > .container{
+  width:50%;
+  max-width:680px;
+  margin-left:45%;
+  margin-right:0;
+  text-align:center;
+}
+
+.cta-block h2{
+  margin-left:auto;
+  margin-right:auto;
+}
+    
+    .cta-block h2{
+      margin-left:0;
+      margin-right:0;
+      font-size:clamp(2.8rem,5vw,4.5rem);
+    }
+    .cta-block p{
+    margin-left:auto;
+    margin-right:auto;
+    }
+    
+    .cta-btns{
+  justify-content:center;
+}
+  
 
   /* ===== Contact ===== */
   .contact-grid{ display:grid; grid-template-columns:1fr 1.15fr; gap:70px; }
@@ -2187,4 +2231,3 @@ makeDraggable($('#cat-bar'));
 </script>
 </body>
 </html>
-
